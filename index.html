@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Planner</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+
+    <main class="app">
+      <!-- AUTH VIEW (Slide 1) -->
+      <section id="authView" class="view active" aria-label="Authentication">
+        <header class="authHeader">
+
+          <div class="brand">
+            <div class="logo">📚</div>
+            <div>
+              <h1>Study Planner</h1>
+              <p>Sign in to manage your academic life</p>
+            </div>
+          </div>
+        </header>
+
+        <div class="card" role="region" aria-label="Login">
+          <div class="cardTop">
+            <h2 id="authTitle">Login</h2>
+            <p class="muted" id="authSubtitle">Welcome back</p>
+          </div>
+
+          <form id="loginForm" class="form">
+            <div class="field">
+              <label for="loginUSN">USN</label>
+              <input
+                id="loginUSN"
+                name="usn"
+                type="text"
+                autocomplete="username"
+                required
+                placeholder="Enter your USN"
+              />
+            </div>
+
+            <div class="field">
+              <label for="loginPassword">Password</label>
+              <input
+                id="loginPassword"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <button class="btn primary" type="submit">Login</button>
+
+            <div class="switchRow">
+              <span class="muted">New here?</span>
+              <button class="btn link" type="button" id="goToRegister">Create account</button>
+            </div>
+          </form>
+
+          <form id="registerForm" class="form hidden" novalidate>
+            <div class="field">
+              <label for="regUSN">USN</label>
+              <input
+                id="regUSN"
+                name="usn"
+                type="text"
+                autocomplete="username"
+                required
+                placeholder="Enter your USN"
+              />
+            </div>
+
+            <div class="field">
+              <label for="regPhone">Phone number</label>
+              <input
+                id="regPhone"
+                name="phone"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel"
+                required
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            <div class="field">
+              <label for="regCollege">College</label>
+              <input
+                id="regCollege"
+                name="college"
+                type="text"
+                required
+                placeholder="Enter your college"
+              />
+            </div>
+
+            <div class="field">
+              <label for="regPassword">Create password</label>
+              <input
+                id="regPassword"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                required
+                minlength="6"
+                placeholder="At least 6 characters"
+              />
+            </div>
+
+            <div class="field">
+              <label for="regConfirmPassword">Confirm password</label>
+              <input
+                id="regConfirmPassword"
+                name="confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                required
+                minlength="6"
+                placeholder="Re-enter your password"
+              />
+            </div>
+
+            <button class="btn primary" type="submit">Register</button>
+
+            <div class="switchRow">
+              <span class="muted">Already have an account?</span>
+              <button class="btn link" type="button" id="goToLogin">Back to login</button>
+            </div>
+          </form>
+
+          <p id="authMessage" class="message" role="status" aria-live="polite"></p>
+        </div>
+
+        <footer class="authFooter muted">Data is stored locally in your browser (demo).</footer>
+      </section>
+
+      <!-- DASHBOARD VIEW (placeholder for next slide) -->
+      <section id="dashboardView" class="view hidden" aria-label="Dashboard">
+        <header class="dashHeader">
+          <div>
+            <h2>Dashboard</h2>
+            <p class="muted" id="welcomeText">Welcome</p>
+          </div>
+          <div class="dashActions">
+            <button class="btn ghost" id="logoutBtn" type="button">Logout</button>
+          </div>
+        </header>
+
+        <div class="grid">
+            <div class="panel">
+              <div class="profileToggleRow">
+                <div class="profileToggleWrap">
+                  <button class="profileToggle" type="button" id="profileToggleBtn" aria-expanded="false" aria-controls="studentDetailsPanel" aria-label="Open student details">
+                    👤
+                  </button>
+                </div>
+              </div>
+
+              <div id="studentDetailsOverlay" class="studentDetailsOverlay hidden" aria-hidden="true"></div>
+
+              <aside id="studentDetailsPanel" class="studentDetailsPanel" aria-label="Student details" aria-hidden="true">
+                <div class="studentDetailsPanelHeader">
+                  <div>
+                    <div class="studentDetailsTitle">Student Details</div>
+                    <div class="studentDetailsSubtitle muted" id="studentDetailsSubtitle">—</div>
+                  </div>
+                  <button class="studentDetailsClose" type="button" id="studentDetailsCloseBtn" aria-label="Close student details">✕</button>
+                </div>
+
+
+
+              <div class="studentDetailsBody">
+                <div class="studentDetailsAvatar" aria-hidden="true">👤</div>
+
+                <div class="studentDetailsSection">
+                  <div class="studentDetailsSectionTitle">Personal</div>
+                  <div class="kv" id="studentKV"></div>
+                </div>
+
+                <div class="studentDetailsSection">
+                  <div class="studentDetailsSectionTitle">Academic</div>
+                  <div class="studentDetailsGrid" id="studentAcademicGrid"></div>
+                </div>
+              </div>
+            </aside>
+
+            <div class="alert" role="status" aria-live="polite" id="timetableAlert" data-empty="true"></div>
+          </div>
+
+
+          <div class="panel primaryPanel">
+            <div class="slideHeader">
+              <div>
+                <h3>Study Time Table Features</h3>
+                <p class="muted">Pick a slot to view details with times.</p>
+              </div>
+              <div class="stepHint">
+                <div class="chip">Slide 2</div>
+                <div class="stepTitle">Time Table</div>
+              </div>
+            </div>
+
+            <div class="ttWrap">
+              <div class="ttLeft">
+                <div class="ttSectionTitle">Your timetable</div>
+                <div class="ttLegend">
+                  <span class="legendDot" style="background: rgba(75, 211, 255, 0.95)"></span>
+                  <span class="muted">Classes</span>
+                </div>
+
+                <div id="timetableSlots" class="ttSlots"></div>
+
+
+
+                <div class="studyForm" aria-label="Add study details">
+                  <div class="ttSectionTitle" style="margin-top:14px;">Add study details</div>
+                  <form id="studyForm" class="studyFormGrid" novalidate>
+                    <div class="field">
+                      <label for="fName">Class / Subject</label>
+                      <input id="fName" name="name" type="text" placeholder="e.g., Data Structures" />
+                    </div>
+
+                    <div class="field">
+                      <label for="fDay">Day</label>
+                      <select id="fDay" name="day" required>
+                        <option value="">Select</option>
+                        <option value="Mon">Mon</option>
+                        <option value="Tue">Tue</option>
+                        <option value="Wed">Wed</option>
+                        <option value="Thu">Thu</option>
+                        <option value="Fri">Fri</option>
+                        <option value="Sat">Sat</option>
+                        <option value="Sun">Sun</option>
+                      </select>
+                    </div>
+
+
+                    <div class="field">
+                      <label for="fStart">Start (HH:MM)</label>
+                      <input id="fStart" name="start" type="time" step="60" />
+                    </div>
+
+                    <div class="field">
+                      <label for="fEnd">End (HH:MM)</label>
+                      <input id="fEnd" name="end" type="time" step="60" />
+                    </div>
+
+
+
+                    <div class="field" style="grid-column: 1 / -1;">
+                      <label for="fDesc">Description (optional)</label>
+                      <input id="fDesc" name="desc" type="text" placeholder="What will you study?" />
+                    </div>
+
+                    <div class="field" style="grid-column: 1 / -1;">
+                      <label for="fAlert">Alert / Reminder (optional)</label>
+                      <input id="fAlert" name="alert" type="text" placeholder="e.g., Revise formulas before class" />
+                    </div>
+
+                    <div class="studyFormActions" style="grid-column: 1 / -1;">
+                      <button class="btn primary" type="submit">Add to timetable</button>
+                      <button class="btn ghost" type="button" id="clearTimetableBtn">Clear timetable</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+
+              <div class="ttRight">
+                <div class="ttSectionTitle">Selected class</div>
+                <div class="ttCard">
+                  <div class="ttCardTop">
+                    <div class="ttTitle" id="selectedTitle">No class selected</div>
+                    <div class="ttChip" id="selectedDay">—</div>
+                  </div>
+
+                  <div class="ttMeta">
+                    <div class="ttMetaRow"><span class="ttMetaKey">Start</span><span class="ttMetaVal" id="selectedStart">—</span></div>
+                  <div class="ttMetaRow"><span class="ttMetaKey">End</span><span class="ttMetaVal" id="selectedEnd">—</span></div>
+
+
+                  </div>
+
+                  <div class="ttDivider"></div>
+
+                    <div class="ttDescription" id="selectedDesc">
+                    Choose a slot from the left to see study description and reminders.
+                  </div>
+
+
+                <div class="ttReminder">
+                  <div class="ttReminderTitle">Alert</div>
+                  <div class="ttReminderText" id="selectedAlert">—</div>
+                </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<div class="panel full">
+          <h3>Study planner (Slide 3) — Assignment/Project Reminders</h3>
+          <p class="muted">Add daily morning + evening reminders. Each reminder can generate a Google Calendar event and send SMS to your registered phone.</p>
+
+          <div id="slide3App" class="slide3Wrap">
+            <div class="slide3Form" aria-label="Add assignment/project reminder">
+              <form id="reminderForm" class="slide3FormGrid" novalidate>
+                <div class="field">
+                  <label for="rType">Type</label>
+                  <select id="rType" name="type" required>
+                    <option value="">Select</option>
+                    <option value="Assignment">Assignment</option>
+                    <option value="Project">Project</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="rTitle">Title / Topic</label>
+                  <input id="rTitle" name="title" type="text" placeholder="e.g., Unit 3 problems" required />
+                </div>
+
+                <div class="field">
+                  <label for="rDueDate">Due date</label>
+                  <input id="rDueDate" name="dueDate" type="date" required />
+                </div>
+
+                <div class="field">
+                  <label for="rDueTime">Due time (tap for daily morning/evening)</label>
+                  <input id="rDueTime" name="dueTime" type="time" step="60" required />
+                </div>
+
+                <div class="field" style="grid-column: 1 / -1;">
+                  <label for="rNotes">Notes (optional)</label>
+                  <input id="rNotes" name="notes" type="text" placeholder="e.g., Submit screenshots by evening" />
+                </div>
+
+                <div class="slide3Actions" style="grid-column: 1 / -1;">
+                  <button class="btn primary" type="submit">Add reminder</button>
+                  <button class="btn ghost" type="button" id="clearRemindersBtn">Clear reminders</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="slide3List" aria-label="Saved reminders">
+              <div class="slide3ListHeader">
+                <div>
+                  <div class="ttSectionTitle" style="margin:0;">Your reminders</div>
+                  <div class="muted" style="font-size:13px;margin-top:6px;">Showing due date/time in Indian format (DD/MM/YYYY) and time with AM/PM.</div>
+                </div>
+              </div>
+
+              <div id="reminderRows" class="slide3Rows"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
